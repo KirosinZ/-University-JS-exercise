@@ -1,6 +1,6 @@
-document.body.children['addfilebutton'].addEventListener("click", this.AddFile);
+document.body.children['addfilebutton'].addEventListener("click", this.addFile);
 
-function GetElement(path = [])
+function getElement(path = [])
 {
     let iter = document.body.children[0].children['folder_root'];
     for (let fold of path)
@@ -11,7 +11,7 @@ function GetElement(path = [])
     return iter;
 }
 
-function IsAvailable(folder, elem)
+function isAvailable(folder, elem)
 {
     if (folder.children[0].children.length == 0) return true;
     for (let i = 0; i<folder.children[0].children.length; i++)
@@ -21,14 +21,14 @@ function IsAvailable(folder, elem)
     return true;
 }
 
-function AddFile(event)
+function addFile(event)
 {
     event.preventDefault();
 
     let path = document.body.children["inbox"].value.split('\\');
     let folderpath = path.splice(0, path.length - 1);
 
-    let folder = GetElement(folderpath);
+    let folder = getElement(folderpath);
     let elem = path[0];
 
     if (folder == undefined)
@@ -37,7 +37,7 @@ function AddFile(event)
         return;
     }
 
-    if (!IsAvailable(folder, "file_" + elem))
+    if (!isAvailable(folder, "file_" + elem))
     {
         alert('Такой файл уже существует.');
         return;
