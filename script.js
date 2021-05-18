@@ -1,4 +1,5 @@
 document.body.children['addfolderbutton'].addEventListener("click", this.addFolder);
+document.body.children['addfilebutton'].addEventListener("click", this.addFile);
 
 function getElement(path = [])
 {
@@ -24,6 +25,46 @@ function isAvailable(folder, elem)
 function addFolder(event)
 {
     event.preventDefault();
+  
+    let path = document.body.children["inbox"].value.split('\\');
+    let folderpath = path.splice(0, path.length - 1);
+
+    let folder = getElement(folderpath);
+    let elem = path[0];
+
+    if (folder == undefined)
+    {
+        alert('Указанный путь не существует.');
+        return;
+    }
+  
+    if (!isAvailable(folder, "folder_" + elem))
+    {
+        alert('Такая папка уже существует.');
+        return;
+    }
+  
+    let text = document.createElement('li');
+
+    let att = document.createAttribute('name');
+  
+    att.value = 'folder_' + elem;
+    text.setAttributeNode(att);
+
+    att = document.createAttribute('type');
+    att.value = 'disc';
+  
+    text.setAttributeNode(att);
+
+    text.appendChild(document.createTextNode(elem));
+    let node = document.createElement('ul');
+    text.appendChild(node);
+    folder.children[0].appendChild(text);
+}
+
+function addFile(event)
+{
+    event.preventDefault();
 
     let path = document.body.children["inbox"].value.split('\\');
     let folderpath = path.splice(0, path.length - 1);
@@ -37,20 +78,21 @@ function addFolder(event)
         return;
     }
 
-    if (!isAvailable(folder, "folder_" + elem))
+    if (!isAvailable(folder, "file_" + elem))
     {
-        alert('Такая папка уже существует.');
+        alert('Такой файл уже существует.');
         return;
     }
 
     let text = document.createElement('li');
 
     let att = document.createAttribute('name');
-    att.value = 'folder_' + elem;
+
+    att.value = 'file_' + elem;
     text.setAttributeNode(att);
 
     att = document.createAttribute('type');
-    att.value = 'disc';
+    att.value = 'circle';
     text.setAttributeNode(att);
 
     text.appendChild(document.createTextNode(elem));
